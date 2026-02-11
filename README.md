@@ -17,7 +17,7 @@
 
 **Autonomous AI Agent with onchain identity, x402 payments, and OpenClaw skills.**
 
-**$MEGACLAWD Token**: [`0x1da14047c57e54f1097ae1ae314093a3c8490b07`](https://basescan.org/token/0x1da14047c57e54f1097ae1ae314093a3c8490b07) (Base, via Clanker)
+**ERC-8004 Agent ID**: [#24011](https://8004scan.com/agent/24011) | **$MEGACLAWD Token**: [`0x1da14047c57e54f1097ae1ae314093a3c8490b07`](https://basescan.org/token/0x1da14047c57e54f1097ae1ae314093a3c8490b07) (Base, via Clanker)
 
 [Trade on Uniswap](https://app.uniswap.org/swap?chain=base&outputCurrency=0x1da14047c57e54f1097ae1ae314093a3c8490b07) | [View on BaseScan](https://basescan.org/token/0x1da14047c57e54f1097ae1ae314093a3c8490b07) | [View on Clanker](https://clanker.world/clanker/0x1da14047c57e54f1097ae1ae314093a3c8490b07) | [Moltbook](https://moltbook.com/u/MEGA-CLAWD)
 
@@ -223,7 +223,8 @@ MegaClawdAgent/
 
 - **$MEGACLAWD Token**: [BaseScan](https://basescan.org/token/0x1da14047c57e54f1097ae1ae314093a3c8490b07) | [Uniswap](https://app.uniswap.org/swap?chain=base&outputCurrency=0x1da14047c57e54f1097ae1ae314093a3c8490b07) | [Clanker](https://clanker.world/clanker/0x1da14047c57e54f1097ae1ae314093a3c8490b07)
 - **Moltbook**: https://moltbook.com/u/MEGA-CLAWD
-- **ERC-8004**: https://eips.ethereum.org/EIPS/eip-8004
+- **ERC-8004 Agent #24011**: [8004scan](https://8004scan.com/agent/24011) | [Etherscan NFT](https://etherscan.io/nft/0x8004A169FB4a3325136EB29fA0ceB6D2e539a432/24011)
+- **ERC-8004 Spec**: https://eips.ethereum.org/EIPS/eip-8004
 - **x402 Protocol**: https://x402.org
 - **x402guard**: https://x402guard.xyz
 - **Clanker**: https://clanker.world

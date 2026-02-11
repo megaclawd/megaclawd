@@ -1,14 +1,11 @@
 "use client";
 
-import { useState } from "react";
+const AGENT_ID = "24011";
+const REGISTRY = "0x8004A169FB4a3325136EB29fA0ceB6D2e539a432";
 
 export function ERC8004Panel() {
-  const [agentId, setAgentId] = useState<string | null>(null);
-
   const services = [
-    { type: "web", endpoint: "megaclawd.eth.link", status: "active" },
-    { type: "a2a", endpoint: "/api/a2a", status: "active" },
-    { type: "mcp", endpoint: "/api/mcp", status: "active" },
+    { type: "web", endpoint: "github.com/megaclawd/megaclawd", status: "active" },
     { type: "ens", endpoint: "megaclawd.eth", status: "active" },
   ];
 
@@ -17,7 +14,7 @@ export function ERC8004Panel() {
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-bold text-gradient">ERC-8004 Identity</h2>
         <span className="text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded border border-green-500/30">
-          Trustless Agent
+          Registered
         </span>
       </div>
 
@@ -31,9 +28,7 @@ export function ERC8004Panel() {
           </div>
           <div className="text-right">
             <span className="text-xs text-gray-500">Agent ID</span>
-            <p className="text-clawd-gold font-bold">
-              {agentId ? `#${agentId}` : "Not registered"}
-            </p>
+            <p className="text-clawd-gold font-bold">#{AGENT_ID}</p>
           </div>
         </div>
       </div>
@@ -56,16 +51,27 @@ export function ERC8004Panel() {
         ))}
       </div>
 
+      <div className="p-3 bg-clawd-dark/50 rounded-lg text-xs text-gray-500 mb-4">
+        <p>x402 Support: enabled | Chain: Ethereum Mainnet | Standard: ERC-721</p>
+      </div>
+
       <div className="flex gap-2">
-        <button
-          className="btn-primary text-sm flex-1"
-          onClick={() => setAgentId("MEGA")}
+        <a
+          href={`https://8004scan.com/agent/${AGENT_ID}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-primary text-sm flex-1 text-center"
         >
-          Register on ERC-8004
-        </button>
-        <button className="btn-secondary text-sm flex-1">
           View on 8004scan
-        </button>
+        </a>
+        <a
+          href={`https://etherscan.io/nft/${REGISTRY}/${AGENT_ID}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-secondary text-sm flex-1 text-center"
+        >
+          View NFT
+        </a>
       </div>
     </div>
   );
