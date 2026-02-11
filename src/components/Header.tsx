@@ -1,6 +1,15 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+
+const WalletMultiButton = dynamic(
+  () =>
+    import("@solana/wallet-adapter-react-ui").then(
+      (mod) => mod.WalletMultiButton
+    ),
+  { ssr: false }
+);
 
 interface HeaderProps {
   isOnline: boolean;
@@ -39,6 +48,7 @@ export function Header({ isOnline, isLoading }: HeaderProps) {
               OpenClaw
             </span>
           </div>
+          <WalletMultiButton className="!bg-purple-600 hover:!bg-purple-500 !rounded-lg !h-10 !text-sm !font-bold" />
           <ConnectButton />
         </div>
       </div>

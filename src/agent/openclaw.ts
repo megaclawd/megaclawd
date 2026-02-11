@@ -63,6 +63,7 @@ export class OpenClawGateway {
                 "blockchain",
                 "smart-contracts",
                 "solana",
+                "solana-payments",
                 "x402-payments",
                 "erc8004",
                 "code-review",

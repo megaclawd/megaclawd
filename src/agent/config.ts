@@ -33,6 +33,9 @@ export const X402_CONFIG = {
   chain: process.env.X402_CHAIN || "base",
   // USDC on Base
   usdcAddress: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913" as const,
+  // USDC-SPL on Solana
+  usdcSolanaAddress: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v" as const,
+  supportedChains: ["base", "solana"] as const,
 } as const;
 
 // Chain configurations

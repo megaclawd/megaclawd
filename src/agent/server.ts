@@ -118,19 +118,22 @@ export class AgentServer {
     // List available paid services
     this.app.get("/x402/services", (_req, res) => {
       res.json({
+        chains: ["base", "solana"],
         services: [
           {
             name: "code-review",
             description: "AI-powered smart contract code review",
             price: "0.50",
             currency: "USDC",
+            chains: ["base", "solana"],
             endpoint: "/x402/code-review",
           },
           {
             name: "deploy-contract",
-            description: "Deploy a smart contract on Base",
+            description: "Deploy a smart contract on Base or Solana",
             price: "2.00",
             currency: "USDC",
+            chains: ["base", "solana"],
             endpoint: "/x402/deploy",
           },
           {
@@ -138,6 +141,7 @@ export class AgentServer {
             description: "Execute a custom agent task",
             price: "1.00",
             currency: "USDC",
+            chains: ["base", "solana"],
             endpoint: "/x402/task",
           },
         ],
