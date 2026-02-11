@@ -29,6 +29,8 @@ interface AgentStatus {
   timestamp: string;
 }
 
+const API_URL = process.env.NEXT_PUBLIC_AGENT_API_URL || "http://localhost:8402";
+
 export default function Dashboard() {
   const [agentStatus, setAgentStatus] = useState<AgentStatus | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -36,7 +38,7 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchStatus = async () => {
       try {
-        const res = await fetch("http://localhost:8402/status");
+        const res = await fetch(`${API_URL}/status`);
         const data = await res.json();
         setAgentStatus(data);
       } catch {

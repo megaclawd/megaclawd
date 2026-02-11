@@ -53,7 +53,7 @@ export default function JackpotSolPage() {
       const provider = new AnchorProvider(connection, wallet as any, {
         commitment: "confirmed",
       });
-      return new Program(idl as any, PROGRAM_ID, provider);
+      return new Program(idl as any, provider);
     } catch {
       return null;
     }

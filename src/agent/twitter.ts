@@ -29,7 +29,7 @@ export class TwitterClient {
         accessToken,
         accessSecret,
       });
-      this.readWrite = this.client.readWrite;
+      this.readWrite = this.client.readWrite as unknown as TwitterApi;
     }
   }
 

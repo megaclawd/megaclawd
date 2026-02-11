@@ -103,7 +103,7 @@ export class ClankerLauncher {
       const walletClient = getBaseWalletClient();
 
       const clanker = new Clanker({
-        publicClient,
+        publicClient: publicClient as any,
         wallet: walletClient,
       });
 
@@ -114,9 +114,9 @@ export class ClankerLauncher {
         image: deployConfig.image,
         metadata: {
           description: deployConfig.description,
-          websites: ["https://megaclawd.eth.link"],
+          socialMediaUrls: [{ platform: "website", url: "https://megaclawd.eth.link" }],
         },
-        fees: { type: deployConfig.feeType },
+        fees: { type: deployConfig.feeType } as any,
         rewards: {
           recipients: deployConfig.rewards.map((r) => ({
             recipient: r.recipient,
@@ -137,7 +137,7 @@ export class ClankerLauncher {
           devBuy: { ethAmount: deployConfig.devBuyEth },
         }),
         vanity: true,
-      });
+      } as any);
 
       if (error) {
         throw new Error(`Clanker deploy error: ${error}`);

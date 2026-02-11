@@ -9,6 +9,9 @@ interface Message {
   timestamp: string;
 }
 
+const API_URL = process.env.NEXT_PUBLIC_AGENT_API_URL || "http://localhost:8402";
+const WS_URL = API_URL.replace(/^http/, "ws") + "/chat";
+
 export function ChatPanel() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -27,7 +30,7 @@ export function ChatPanel() {
     let reconnectTimeout: ReturnType<typeof setTimeout>;
 
     const connect = () => {
-      const ws = new WebSocket("ws://localhost:8402/chat");
+      const ws = new WebSocket(WS_URL);
 
       ws.onopen = () => {
         setIsConnected(true);

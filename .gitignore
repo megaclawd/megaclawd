@@ -3,6 +3,7 @@ node_modules/
 out/
 .env
 .env.local
+.env.production
 .env.*.local
 *.log
 contracts/out/
@@ -11,3 +12,4 @@ coverage/
 .turbo
 dist/
 .tmp/
+programs/target/

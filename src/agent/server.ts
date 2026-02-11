@@ -35,9 +35,16 @@ export class AgentServer {
     this.app.use(express.json());
 
     // CORS for frontend
-    this.app.use((_req, res, next) => {
-      res.header("Access-Control-Allow-Origin", "*");
-      res.header("Access-Control-Allow-Headers", "*, X-PAYMENT, X-PAYMENT-VERSION");
+    const allowedOrigins = (process.env.CORS_ALLOWED_ORIGINS || "http://localhost:3000,http://localhost:3001").split(",");
+    this.app.use((req, res, next) => {
+      const origin = req.headers.origin;
+      if (origin && allowedOrigins.includes(origin)) {
+        res.header("Access-Control-Allow-Origin", origin);
+      } else if (!origin) {
+        // Allow non-browser requests (curl, server-to-server)
+        res.header("Access-Control-Allow-Origin", allowedOrigins[0]);
+      }
+      res.header("Access-Control-Allow-Headers", "Content-Type, X-PAYMENT, X-PAYMENT-VERSION");
       res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
       next();
     });
