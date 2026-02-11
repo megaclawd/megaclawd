@@ -38,7 +38,9 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchStatus = async () => {
       try {
-        const res = await fetch(`${API_URL}/status`);
+        const res = await fetch(`${API_URL}/status`, {
+          headers: { "Bypass-Tunnel-Reminder": "true" },
+        });
         const data = await res.json();
         setAgentStatus(data);
       } catch {

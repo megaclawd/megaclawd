@@ -44,8 +44,12 @@ export class AgentServer {
         // Allow non-browser requests (curl, server-to-server)
         res.header("Access-Control-Allow-Origin", allowedOrigins[0]);
       }
-      res.header("Access-Control-Allow-Headers", "Content-Type, X-PAYMENT, X-PAYMENT-VERSION");
+      res.header("Access-Control-Allow-Headers", "Content-Type, X-PAYMENT, X-PAYMENT-VERSION, Bypass-Tunnel-Reminder");
       res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+      if (req.method === "OPTIONS") {
+        res.sendStatus(200);
+        return;
+      }
       next();
     });
 
