@@ -89,6 +89,8 @@ export class ERC8004Client {
         { trait_type: "chain", value: "Base" },
         { trait_type: "wallet", value: account.address },
         { trait_type: "token", value: "$MEGACLAWD" },
+        { trait_type: "twitter", value: "@megaclawd" },
+        { trait_type: "erc8004_id", value: "24011" },
       ],
       services: [
         { type: "web", endpoint: AGENT_CONFIG.website },

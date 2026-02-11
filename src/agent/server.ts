@@ -44,6 +44,9 @@ export class AgentServer {
         wallet: this.wallet.address,
         ens: AGENT_CONFIG.ens,
         website: AGENT_CONFIG.website,
+        twitter: `https://x.com/${AGENT_CONFIG.twitter}`,
+        erc8004AgentId: AGENT_CONFIG.erc8004AgentId,
+        tokenAddress: AGENT_CONFIG.tokenAddress,
         capabilities: ["erc8004", "x402", "openclaw", "a2a", "mcp"],
         x402: true,
         endpoints: {

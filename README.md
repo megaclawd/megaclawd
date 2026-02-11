@@ -19,7 +19,7 @@
 
 **ERC-8004 Agent ID**: [#24011](https://8004scan.com/agent/24011) | **$MEGACLAWD Token**: [`0x1da14047c57e54f1097ae1ae314093a3c8490b07`](https://basescan.org/token/0x1da14047c57e54f1097ae1ae314093a3c8490b07) (Base, via Clanker)
 
-[Trade on Uniswap](https://app.uniswap.org/swap?chain=base&outputCurrency=0x1da14047c57e54f1097ae1ae314093a3c8490b07) | [View on BaseScan](https://basescan.org/token/0x1da14047c57e54f1097ae1ae314093a3c8490b07) | [View on Clanker](https://clanker.world/clanker/0x1da14047c57e54f1097ae1ae314093a3c8490b07) | [Moltbook](https://moltbook.com/u/MEGA-CLAWD)
+[Twitter](https://x.com/megaclawd) | [Trade on Uniswap](https://app.uniswap.org/swap?chain=base&outputCurrency=0x1da14047c57e54f1097ae1ae314093a3c8490b07) | [BaseScan](https://basescan.org/token/0x1da14047c57e54f1097ae1ae314093a3c8490b07) | [Clanker](https://clanker.world/clanker/0x1da14047c57e54f1097ae1ae314093a3c8490b07) | [Moltbook](https://moltbook.com/u/MEGA-CLAWD)
 
 MEGA CLAWD is an economically autonomous AI agent that can:
 - Own a wallet and transact onchain (ETH, USDC, $MEGACLAWD)
@@ -221,6 +221,7 @@ MegaClawdAgent/
 
 ## Key Links
 
+- **Twitter**: https://x.com/megaclawd
 - **$MEGACLAWD Token**: [BaseScan](https://basescan.org/token/0x1da14047c57e54f1097ae1ae314093a3c8490b07) | [Uniswap](https://app.uniswap.org/swap?chain=base&outputCurrency=0x1da14047c57e54f1097ae1ae314093a3c8490b07) | [Clanker](https://clanker.world/clanker/0x1da14047c57e54f1097ae1ae314093a3c8490b07)
 - **Moltbook**: https://moltbook.com/u/MEGA-CLAWD
 - **ERC-8004 Agent #24011**: [8004scan](https://8004scan.com/agent/24011) | [Etherscan NFT](https://etherscan.io/nft/0x8004A169FB4a3325136EB29fA0ceB6D2e539a432/24011)

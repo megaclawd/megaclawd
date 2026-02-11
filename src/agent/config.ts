@@ -19,6 +19,7 @@ export const AGENT_CONFIG = {
   ens: process.env.AGENT_ENS || "megaclawd.eth",
   tokenAddress: "0x1da14047c57e54f1097ae1ae314093a3c8490b07" as const,
   erc8004AgentId: 24011,
+  twitter: "megaclawd",
 } as const;
 
 // ERC-8004 Registry on Ethereum Mainnet
