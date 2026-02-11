@@ -10,3 +10,4 @@ contracts/cache/
 coverage/
 .turbo
 dist/
+.tmp/

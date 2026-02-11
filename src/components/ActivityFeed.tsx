@@ -1,5 +1,7 @@
 "use client";
 
+import { useState, useEffect } from "react";
+
 interface Activity {
   id: string;
   type: "tx" | "x402" | "erc8004" | "openclaw" | "system";
@@ -8,32 +10,37 @@ interface Activity {
 }
 
 export function ActivityFeed() {
-  const activities: Activity[] = [
-    {
-      id: "1",
-      type: "system",
-      message: "MEGA CLAWD agent initialized",
-      timestamp: new Date().toISOString(),
-    },
-    {
-      id: "2",
-      type: "erc8004",
-      message: "ERC-8004 identity client ready",
-      timestamp: new Date().toISOString(),
-    },
-    {
-      id: "3",
-      type: "x402",
-      message: "x402 payment client ready (USDC on Base)",
-      timestamp: new Date().toISOString(),
-    },
-    {
-      id: "4",
-      type: "openclaw",
-      message: "3 OpenClaw skills loaded",
-      timestamp: new Date().toISOString(),
-    },
-  ];
+  const [activities, setActivities] = useState<Activity[]>([]);
+
+  useEffect(() => {
+    const now = new Date().toISOString();
+    setActivities([
+      {
+        id: "1",
+        type: "system",
+        message: "MEGA CLAWD agent initialized",
+        timestamp: now,
+      },
+      {
+        id: "2",
+        type: "erc8004",
+        message: "ERC-8004 identity client ready",
+        timestamp: now,
+      },
+      {
+        id: "3",
+        type: "x402",
+        message: "x402 payment client ready (USDC on Base)",
+        timestamp: now,
+      },
+      {
+        id: "4",
+        type: "openclaw",
+        message: "3 OpenClaw skills loaded",
+        timestamp: now,
+      },
+    ]);
+  }, []);
 
   const typeColors: Record<string, string> = {
     tx: "text-green-400 bg-green-500/10 border-green-500/20",

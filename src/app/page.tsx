@@ -9,6 +9,8 @@ import { X402Panel } from "@/components/X402Panel";
 import { X402GuardPanel } from "@/components/X402GuardPanel";
 import { ClankerPanel } from "@/components/ClankerPanel";
 import { OpenClawPanel } from "@/components/OpenClawPanel";
+import { ChatPanel } from "@/components/ChatPanel";
+import { AppsPanel } from "@/components/AppsPanel";
 import { ActivityFeed } from "@/components/ActivityFeed";
 
 interface AgentStatus {
@@ -74,6 +76,12 @@ export default function Dashboard() {
           <ClankerPanel />
           <OpenClawPanel />
         </div>
+
+        {/* Apps built by MEGA CLAWD */}
+        <AppsPanel />
+
+        {/* Chat */}
+        <ChatPanel />
 
         {/* Activity */}
         <ActivityFeed />

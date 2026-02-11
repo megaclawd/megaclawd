@@ -1,7 +1,10 @@
 import express from "express";
+import { WebSocketServer, WebSocket } from "ws";
+import { randomUUID } from "crypto";
 import type { WalletManager } from "./wallet.js";
 import type { ERC8004Client } from "./erc8004.js";
 import type { X402Client } from "./x402.js";
+import type { ChatHandler } from "./chat.js";
 import { AGENT_CONFIG } from "./config.js";
 
 // ============================================
@@ -14,11 +17,14 @@ export class AgentServer {
   private wallet: WalletManager;
   private erc8004: ERC8004Client;
   private x402: X402Client;
+  private chatHandler: ChatHandler | null = null;
+  private wss: WebSocketServer | null = null;
 
-  constructor(wallet: WalletManager, erc8004: ERC8004Client, x402: X402Client) {
+  constructor(wallet: WalletManager, erc8004: ERC8004Client, x402: X402Client, chatHandler?: ChatHandler) {
     this.wallet = wallet;
     this.erc8004 = erc8004;
     this.x402 = x402;
+    this.chatHandler = chatHandler || null;
     this.setupRoutes();
   }
 
@@ -205,9 +211,63 @@ export class AgentServer {
     });
   }
 
+  private setupWebSocket(server: import("http").Server) {
+    if (!this.chatHandler) return;
+
+    this.wss = new WebSocketServer({ noServer: true });
+
+    server.on("upgrade", (request, socket, head) => {
+      const url = new URL(request.url || "/", `http://${request.headers.host}`);
+      if (url.pathname === "/chat") {
+        this.wss!.handleUpgrade(request, socket, head, (ws) => {
+          this.wss!.emit("connection", ws, request);
+        });
+      } else {
+        socket.destroy();
+      }
+    });
+
+    this.wss.on("connection", (ws) => {
+      const connectionId = randomUUID();
+      console.log(`[MEGA CLAWD] Dashboard chat connected: ${connectionId}`);
+
+      ws.on("message", async (data) => {
+        try {
+          const parsed = JSON.parse(data.toString());
+          if (parsed.type === "message" && parsed.text) {
+            const response = await this.chatHandler!.handleMessage({
+              source: "dashboard",
+              sourceId: connectionId,
+              text: parsed.text,
+              timestamp: new Date(),
+            });
+
+            if (ws.readyState === WebSocket.OPEN) {
+              ws.send(
+                JSON.stringify({
+                  type: "response",
+                  text: response.text,
+                  timestamp: response.timestamp.toISOString(),
+                })
+              );
+            }
+          }
+        } catch (err) {
+          console.error("[MEGA CLAWD] Chat WS message error:", err);
+        }
+      });
+
+      ws.on("close", () => {
+        console.log(`[MEGA CLAWD] Dashboard chat disconnected: ${connectionId}`);
+        this.chatHandler!.clearConversation("dashboard", connectionId);
+      });
+    });
+  }
+
   async start(port: number): Promise<void> {
     return new Promise((resolve) => {
-      this.app.listen(port, () => {
+      const server = this.app.listen(port, () => {
+        this.setupWebSocket(server);
         resolve();
       });
     });

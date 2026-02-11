@@ -7,6 +7,8 @@ import { OpenClawGateway } from "./openclaw.js";
 import { X402GuardClient } from "./x402guard.js";
 import { ClankerLauncher } from "./clanker.js";
 import { TwitterClient } from "./twitter.js";
+import { ChatHandler } from "./chat.js";
+import { TelegramBot } from "./telegram.js";
 import { AgentServer } from "./server.js";
 import { AGENT_CONFIG } from "./config.js";
 
@@ -58,7 +60,10 @@ async function main() {
   wallet.printInfo();
 
   try {
-    const balances = await wallet.getBalances();
+    const balanceTimeout = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("timeout")), 10000)
+    );
+    const balances = await Promise.race([wallet.getBalances(), balanceTimeout]) as Awaited<ReturnType<typeof wallet.getBalances>>;
     console.log(chalk.cyan("  Balances:"));
     console.log(chalk.white(`    ETH (Mainnet): ${balances.ethMainnet}`));
     console.log(chalk.white(`    ETH (Base):    ${balances.ethBase}`));
@@ -71,7 +76,10 @@ async function main() {
   spinner.text = "Initializing ERC-8004 identity client...";
   const erc8004 = new ERC8004Client();
   try {
-    const totalAgents = await erc8004.getTotalAgents();
+    const regTimeout = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("timeout")), 10000)
+    );
+    const totalAgents = await Promise.race([erc8004.getTotalAgents(), regTimeout]) as bigint;
     console.log(
       chalk.green(`\n  ERC-8004 Registry: ${totalAgents.toString()} agents registered`)
     );
@@ -103,7 +111,21 @@ async function main() {
     console.log(chalk.yellow("  Twitter/X: Not configured (set TWITTER_API_KEY in .env)"));
   }
 
-  // 7. OpenClaw Gateway
+  // 7. Chat Handler
+  spinner.text = "Initializing chat handler...";
+  const chatHandler = new ChatHandler();
+
+  // 8. Telegram Bot
+  spinner.text = "Initializing Telegram bot...";
+  const telegram = new TelegramBot(chatHandler);
+  if (telegram.isConfigured) {
+    await telegram.start();
+    console.log(chalk.green("  Telegram Bot: Connected"));
+  } else {
+    console.log(chalk.yellow("  Telegram: Not configured (set TELEGRAM_BOT_TOKEN in .env)"));
+  }
+
+  // 9. OpenClaw Gateway
   spinner.text = "Connecting to OpenClaw gateway...";
   const openclaw = new OpenClawGateway();
   const openclawConnected = await openclaw.connect().catch(() => false);
@@ -115,9 +137,9 @@ async function main() {
     );
   }
 
-  // 7. Agent API Server
+  // 10. Agent API Server
   spinner.text = "Starting agent API server...";
-  const server = new AgentServer(wallet, erc8004, x402);
+  const server = new AgentServer(wallet, erc8004, x402, chatHandler);
   const port = parseInt(process.env.AGENT_API_PORT || "8402");
   await server.start(port);
 
@@ -125,6 +147,8 @@ async function main() {
 
   console.log(chalk.gray(`\n  Agent API: http://localhost:${port}`));
   console.log(chalk.gray(`  Dashboard: http://localhost:${process.env.PORT || 3000}`));
+  console.log(chalk.gray(`  Dashboard Chat: ws://localhost:${port}/chat`));
+  console.log(chalk.gray(`  Telegram: ${telegram.isConfigured ? "Active" : "Not configured"}`));
   console.log(chalk.gray(`  x402 Endpoint: http://localhost:${port}/x402\n`));
 
   console.log(
@@ -136,6 +160,7 @@ async function main() {
   // Keep alive
   process.on("SIGINT", () => {
     console.log(chalk.red("\n  MEGA CLAWD shutting down..."));
+    telegram.stop();
     openclaw.disconnect();
     process.exit(0);
   });
