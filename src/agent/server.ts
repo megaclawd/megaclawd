@@ -297,7 +297,7 @@ export class AgentServer {
 
   async start(port: number): Promise<void> {
     return new Promise((resolve) => {
-      const server = this.app.listen(port, () => {
+      const server = this.app.listen(port, "0.0.0.0", () => {
         this.setupWebSocket(server);
         resolve();
       });

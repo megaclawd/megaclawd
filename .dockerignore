@@ -1,0 +1,17 @@
+node_modules
+.next
+out
+.env
+.env.local
+.env.production
+.env.*.local
+.git
+.claude
+.vercel
+.tmp
+contracts/out
+contracts/cache
+programs/target
+coverage
+*.log
+*.txt
