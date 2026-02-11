@@ -1,14 +1,16 @@
 "use client";
 
+const TOKEN_ADDRESS = "0x1da14047c57e54f1097ae1ae314093a3c8490b07";
+
 export function ClankerPanel() {
   const tokenConfig = {
     name: "MEGA CLAWD",
     symbol: "$MEGACLAWD",
+    contract: `${TOKEN_ADDRESS.slice(0, 6)}...${TOKEN_ADDRESS.slice(-4)}`,
     supply: "100,000,000,000",
-    feeType: "Dynamic",
-    vault: "20% locked, 7d lock, 30d vest",
     chain: "Base (Clanker v4)",
     pool: "Uniswap V4",
+    status: "LIVE",
   };
 
   const launchMethods = [
@@ -41,7 +43,7 @@ export function ClankerPanel() {
   return (
     <div className="card-glow">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-bold text-gradient">Clanker Token Launch</h2>
+        <h2 className="text-xl font-bold text-gradient">$MEGACLAWD Token</h2>
         <a
           href="https://clanker.world"
           target="_blank"
@@ -53,7 +55,7 @@ export function ClankerPanel() {
       </div>
 
       <p className="text-xs text-gray-500 mb-4">
-        Launch $MEGACLAWD via Clanker on Base. Auto-creates Uniswap V4 pool with locked
+        $MEGACLAWD launched via Clanker on Base. Uniswap V4 pool with locked
         liquidity. LP fees flow to agent wallet.
       </p>
 
@@ -99,8 +101,22 @@ export function ClankerPanel() {
       </div>
 
       <div className="flex gap-2">
-        <button className="btn-primary text-sm flex-1">Launch $MEGACLAWD</button>
-        <button className="btn-secondary text-sm flex-1">View on Clanker</button>
+        <a
+          href={`https://app.uniswap.org/swap?chain=base&outputCurrency=${TOKEN_ADDRESS}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-primary text-sm flex-1 text-center"
+        >
+          Trade $MEGACLAWD
+        </a>
+        <a
+          href={`https://basescan.org/token/${TOKEN_ADDRESS}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-secondary text-sm flex-1 text-center"
+        >
+          View on BaseScan
+        </a>
       </div>
     </div>
   );

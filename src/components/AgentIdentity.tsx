@@ -58,7 +58,14 @@ export function AgentIdentity({ status }: AgentIdentityProps) {
           </div>
           <div>
             <span className="text-gray-500">Token: </span>
-            <span className="text-clawd-accent">$MEGACLAWD</span>
+            <a
+              href="https://basescan.org/token/0x1da14047c57e54f1097ae1ae314093a3c8490b07"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-clawd-accent hover:underline"
+            >
+              $MEGACLAWD
+            </a>
           </div>
         </div>
       )}

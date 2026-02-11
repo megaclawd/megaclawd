@@ -17,6 +17,7 @@ export const AGENT_CONFIG = {
   version: "1.0.0",
   website: process.env.AGENT_WEBSITE || "https://megaclawd.eth.link",
   ens: process.env.AGENT_ENS || "megaclawd.eth",
+  tokenAddress: "0x1da14047c57e54f1097ae1ae314093a3c8490b07" as const,
 } as const;
 
 // ERC-8004 Registry on Ethereum Mainnet

@@ -17,13 +17,18 @@
 
 **Autonomous AI Agent with onchain identity, x402 payments, and OpenClaw skills.**
 
+**$MEGACLAWD Token**: [`0x1da14047c57e54f1097ae1ae314093a3c8490b07`](https://basescan.org/token/0x1da14047c57e54f1097ae1ae314093a3c8490b07) (Base, via Clanker)
+
+[Trade on Uniswap](https://app.uniswap.org/swap?chain=base&outputCurrency=0x1da14047c57e54f1097ae1ae314093a3c8490b07) | [View on BaseScan](https://basescan.org/token/0x1da14047c57e54f1097ae1ae314093a3c8490b07) | [View on Clanker](https://clanker.world/clanker/0x1da14047c57e54f1097ae1ae314093a3c8490b07) | [Moltbook](https://moltbook.com/u/MEGA-CLAWD)
+
 MEGA CLAWD is an economically autonomous AI agent that can:
 - Own a wallet and transact onchain (ETH, USDC, $MEGACLAWD)
 - Register and maintain a verifiable identity via **ERC-8004**
 - Send and receive payments using the **x402** HTTP payment protocol
+- Audit skills before installation via **x402guard**
+- Launch tokens via **Clanker** on Base
 - Extend capabilities through **OpenClaw** skills
 - Serve paid APIs and interact with other agents (A2A protocol)
-- Deploy smart contracts and build dApps on Base L2
 
 ---
 
@@ -55,8 +60,11 @@ MEGA CLAWD is an economically autonomous AI agent that can:
 | Agent Core | TypeScript, viem |
 | Frontend | Next.js 15, React 19, Tailwind, RainbowKit |
 | Payments | x402 v2, EIP-3009 (USDC) |
+| Security | x402guard (skill auditing) |
+| Token Launch | Clanker v4 (Uniswap V4) |
 | Identity | ERC-8004, ERC-721 |
 | Agent Gateway | OpenClaw |
+| Social | Moltbook |
 | Chains | Ethereum Mainnet, Base L2 |
 
 ## Quick Start
@@ -96,14 +104,7 @@ npm run register-8004
 
 Registers MEGA CLAWD on the Trustless Agents Registry (Ethereum mainnet).
 
-### 6. Deploy $MEGACLAWD token (optional)
-
-```bash
-npm run compile
-npm run deploy-token
-```
-
-### 7. Start the agent
+### 6. Start the agent
 
 ```bash
 # Agent backend (API server + wallet + x402 + OpenClaw)
@@ -116,20 +117,24 @@ npm run dev
 - Agent API: http://localhost:8402
 - Dashboard: http://localhost:3000
 
+## $MEGACLAWD Token
+
+Launched via **Clanker v4** on Base with Uniswap V4 pool.
+
+| Property | Value |
+|----------|-------|
+| **Contract** | [`0x1da14047c57e54f1097ae1ae314093a3c8490b07`](https://basescan.org/token/0x1da14047c57e54f1097ae1ae314093a3c8490b07) |
+| **Chain** | Base (8453) |
+| **DEX** | Uniswap V4 |
+| **Launcher** | Clanker |
+| **LP Fees** | Dynamic, flow to agent wallet |
+
 ## Smart Contracts
 
 | Contract | Description | Chain |
 |----------|------------|-------|
-| `MegaClawdToken` | $MEGACLAWD ERC-20 token (1B supply) | Base |
 | `MegaClawdVault` | Treasury with daily budgets | Base |
 | `X402PaymentReceiver` | x402 payment processing | Base |
-
-### Compile & Test
-
-```bash
-npm run compile
-npm run test:contracts
-```
 
 ## Agent API Endpoints
 
@@ -150,13 +155,16 @@ Install MEGA CLAWD skills in your OpenClaw agent:
 
 ```bash
 # Blockchain operations
-openclaw skill install https://github.com/YOUR_USERNAME/MegaClawdAgent/raw/main/skills/mega-clawd-blockchain/SKILL.md
+openclaw skill install https://github.com/megaclawd/megaclawd/raw/main/skills/mega-clawd-blockchain/SKILL.md
 
 # ERC-8004 identity
-openclaw skill install https://github.com/YOUR_USERNAME/MegaClawdAgent/raw/main/skills/mega-clawd-8004/SKILL.md
+openclaw skill install https://github.com/megaclawd/megaclawd/raw/main/skills/mega-clawd-8004/SKILL.md
 
 # x402 payments
-openclaw skill install https://github.com/YOUR_USERNAME/MegaClawdAgent/raw/main/skills/mega-clawd-x402/SKILL.md
+openclaw skill install https://github.com/megaclawd/megaclawd/raw/main/skills/mega-clawd-x402/SKILL.md
+
+# x402guard security
+openclaw skill install https://github.com/megaclawd/megaclawd/raw/main/skills/mega-clawd-x402guard/SKILL.md
 ```
 
 ## How x402 Payments Work
@@ -193,7 +201,8 @@ MegaClawdAgent/
 ├── skills/                 # OpenClaw skill definitions
 │   ├── mega-clawd-blockchain/
 │   ├── mega-clawd-8004/
-│   └── mega-clawd-x402/
+│   ├── mega-clawd-x402/
+│   └── mega-clawd-x402guard/
 ├── src/
 │   ├── agent/              # Agent core
 │   │   ├── index.ts        # Entry point
@@ -201,6 +210,8 @@ MegaClawdAgent/
 │   │   ├── wallet.ts       # Wallet manager
 │   │   ├── erc8004.ts      # ERC-8004 client
 │   │   ├── x402.ts         # x402 payment client
+│   │   ├── x402guard.ts    # x402guard security auditor
+│   │   ├── clanker.ts      # Clanker token launcher
 │   │   ├── openclaw.ts     # OpenClaw gateway
 │   │   └── server.ts       # API server
 │   ├── app/                # Next.js frontend
@@ -210,8 +221,12 @@ MegaClawdAgent/
 
 ## Key Links
 
+- **$MEGACLAWD Token**: [BaseScan](https://basescan.org/token/0x1da14047c57e54f1097ae1ae314093a3c8490b07) | [Uniswap](https://app.uniswap.org/swap?chain=base&outputCurrency=0x1da14047c57e54f1097ae1ae314093a3c8490b07) | [Clanker](https://clanker.world/clanker/0x1da14047c57e54f1097ae1ae314093a3c8490b07)
+- **Moltbook**: https://moltbook.com/u/MEGA-CLAWD
 - **ERC-8004**: https://eips.ethereum.org/EIPS/eip-8004
 - **x402 Protocol**: https://x402.org
+- **x402guard**: https://x402guard.xyz
+- **Clanker**: https://clanker.world
 - **OpenClaw**: https://openclaw.ai
 - **ERC-8004 Explorer**: https://8004scan.com
 - **Base L2**: https://base.org
