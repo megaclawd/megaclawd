@@ -7,6 +7,9 @@ interface WalletPanelProps {
       ethMainnet?: string;
       ethBase?: string;
       usdcBase?: string;
+      solanaAddress?: string;
+      solBalance?: string;
+      usdcSolana?: string;
     };
   } | null;
 }
@@ -28,6 +31,16 @@ export function WalletPanel({ status }: WalletPanelProps) {
       value: status?.wallet?.usdcBase || "---",
       chain: "Base L2",
     },
+    {
+      label: "SOL",
+      value: status?.wallet?.solBalance || "---",
+      chain: "Solana",
+    },
+    {
+      label: "USDC (Solana)",
+      value: status?.wallet?.usdcSolana || "---",
+      chain: "Solana",
+    },
   ];
 
   return (
@@ -40,12 +53,22 @@ export function WalletPanel({ status }: WalletPanelProps) {
       </div>
 
       {status && (
-        <div className="mb-4 p-3 bg-clawd-dark/50 rounded-lg">
-          <span className="text-xs text-gray-500">Address</span>
-          <p className="font-mono text-sm text-clawd-primary break-all">
-            {status.wallet.address}
-          </p>
-        </div>
+        <>
+          <div className="mb-3 p-3 bg-clawd-dark/50 rounded-lg">
+            <span className="text-xs text-gray-500">EVM Address</span>
+            <p className="font-mono text-sm text-clawd-primary break-all">
+              {status.wallet.address}
+            </p>
+          </div>
+          {status.wallet.solanaAddress && (
+            <div className="mb-4 p-3 bg-clawd-dark/50 rounded-lg">
+              <span className="text-xs text-gray-500">Solana Address</span>
+              <p className="font-mono text-sm text-purple-400 break-all">
+                {status.wallet.solanaAddress}
+              </p>
+            </div>
+          )}
+        </>
       )}
 
       <div className="space-y-3">

@@ -6,6 +6,7 @@ import { mainnet, base } from "wagmi/chains";
 import { RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import { useState } from "react";
+import { SolanaProviders } from "./solana-providers";
 
 const config = createConfig({
   chains: [mainnet, base],
@@ -27,7 +28,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
             borderRadius: "medium",
           })}
         >
-          {children}
+          <SolanaProviders>{children}</SolanaProviders>
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>

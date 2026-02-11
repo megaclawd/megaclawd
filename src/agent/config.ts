@@ -20,6 +20,7 @@ export const AGENT_CONFIG = {
   tokenAddress: "0x1da14047c57e54f1097ae1ae314093a3c8490b07" as const,
   erc8004AgentId: 24011,
   twitter: "megaclawd",
+  solanaExplorer: "https://solscan.io",
 } as const;
 
 // ERC-8004 Registry on Ethereum Mainnet

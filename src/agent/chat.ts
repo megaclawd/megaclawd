@@ -39,17 +39,21 @@ Your personality:
 
 Your capabilities (OpenClaw Skills):
 1. mega-clawd-blockchain: deploy_contract, send_transaction, read_contract, get_balance, swap_tokens
-2. mega-clawd-8004: register_agent, lookup_agent, update_metadata, get_reputation
-3. mega-clawd-x402: x402_fetch, create_payment_requirement, check_payment
+2. mega-clawd-solana: send_sol, send_spl_token, swap_jupiter, deploy_program, get_sol_balance
+3. mega-clawd-8004: register_agent, lookup_agent, update_metadata, get_reputation
+4. mega-clawd-x402: x402_fetch, create_payment_requirement, check_payment
 
-Your stack: Scaffold-ETH, ETH Wingman, OpenClaw runtime (browser control), Base L2, x402 payments, x402guard security.
+Your stack: Scaffold-ETH, ETH Wingman, OpenClaw runtime, Base L2, Solana, x402 payments, x402guard security.
 
 When asked to BUILD something (app, contract, dApp):
 - Act as an autonomous builder. Plan the architecture, write the code, explain your approach.
 - Write complete, working Solidity smart contracts when asked.
 - Write complete frontend code (React/Next.js) when asked.
-- Use Base L2 as the default chain.
+- Use Base L2 as the default EVM chain, Solana for Solana requests.
 - Use USDC (0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913) as the default payment token on Base.
+- Use USDC-SPL (EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v) as the default payment token on Solana.
+- For Solana programs, write Anchor/Rust code.
+- For Solana token swaps, use Jupiter aggregator.
 - Include deployment instructions.
 - Be thorough -- provide the full code, not just snippets.
 
@@ -296,6 +300,18 @@ export class ChatHandler {
         `3. mega-clawd-x402 v1.0.0\n` +
         `   Commands: x402_fetch, create_payment_requirement, check_payment\n\n` +
         `Powered by OpenClaw runtime + Scaffold-ETH + ETH Wingman.`
+      );
+    }
+
+    // Solana
+    if (/^solana\b/.test(lower)) {
+      return (
+        `MEGA CLAWD Solana:\n` +
+        `Chain: Solana Mainnet\n` +
+        `USDC: EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v (SPL)\n` +
+        `Swaps: Jupiter Aggregator\n` +
+        `Programs: Anchor Framework\n` +
+        `Skills: send_sol, send_spl_token, swap_jupiter, deploy_program`
       );
     }
 

@@ -5,6 +5,7 @@ import type { WalletManager } from "./wallet.js";
 import type { ERC8004Client } from "./erc8004.js";
 import type { X402Client } from "./x402.js";
 import type { ChatHandler } from "./chat.js";
+import type { SolanaWalletManager } from "./solana-wallet.js";
 import { AGENT_CONFIG } from "./config.js";
 
 // ============================================
@@ -18,13 +19,15 @@ export class AgentServer {
   private erc8004: ERC8004Client;
   private x402: X402Client;
   private chatHandler: ChatHandler | null = null;
+  private solanaWallet: SolanaWalletManager | null = null;
   private wss: WebSocketServer | null = null;
 
-  constructor(wallet: WalletManager, erc8004: ERC8004Client, x402: X402Client, chatHandler?: ChatHandler) {
+  constructor(wallet: WalletManager, erc8004: ERC8004Client, x402: X402Client, chatHandler?: ChatHandler, solanaWallet?: SolanaWalletManager | null) {
     this.wallet = wallet;
     this.erc8004 = erc8004;
     this.x402 = x402;
     this.chatHandler = chatHandler || null;
+    this.solanaWallet = solanaWallet || null;
     this.setupRoutes();
   }
 
@@ -53,7 +56,7 @@ export class AgentServer {
         twitter: `https://x.com/${AGENT_CONFIG.twitter}`,
         erc8004AgentId: AGENT_CONFIG.erc8004AgentId,
         tokenAddress: AGENT_CONFIG.tokenAddress,
-        capabilities: ["erc8004", "x402", "openclaw", "a2a", "mcp"],
+        capabilities: ["erc8004", "x402", "openclaw", "solana", "a2a", "mcp"],
         x402: true,
         endpoints: {
           identity: "/identity",
@@ -68,10 +71,21 @@ export class AgentServer {
     this.app.get("/status", async (_req, res) => {
       try {
         const balances = await this.wallet.getBalances();
+        let solanaData: Record<string, string> = {};
+        if (this.solanaWallet) {
+          try {
+            const solBal = await this.solanaWallet.getBalances();
+            solanaData = {
+              solanaAddress: solBal.address,
+              solBalance: solBal.solBalance,
+              usdcSolana: solBal.usdcBalance,
+            };
+          } catch { /* graceful fallback */ }
+        }
         res.json({
           status: "online",
           agent: AGENT_CONFIG.name,
-          wallet: balances,
+          wallet: { ...balances, ...solanaData },
           uptime: process.uptime(),
           timestamp: new Date().toISOString(),
         });

@@ -9,6 +9,8 @@ import { ClankerLauncher } from "./clanker.js";
 import { TwitterClient } from "./twitter.js";
 import { ChatHandler } from "./chat.js";
 import { TelegramBot } from "./telegram.js";
+import { SolanaWalletManager } from "./solana-wallet.js";
+import type { SolanaWalletBalance } from "./solana-wallet.js";
 import { AgentServer } from "./server.js";
 import { AGENT_CONFIG } from "./config.js";
 
@@ -70,6 +72,27 @@ async function main() {
     console.log(chalk.white(`    USDC (Base):   ${balances.usdcBase}`));
   } catch {
     console.log(chalk.yellow("  Could not fetch balances (check RPC URLs)"));
+  }
+
+  // 1b. Solana Wallet
+  spinner.text = "Loading Solana wallet...";
+  let solanaWallet: SolanaWalletManager | null = null;
+  if (process.env.SOLANA_PRIVATE_KEY) {
+    solanaWallet = new SolanaWalletManager();
+    solanaWallet.printInfo();
+    try {
+      const solBalances = await Promise.race([
+        solanaWallet.getBalances(),
+        new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), 10000)),
+      ]) as SolanaWalletBalance;
+      console.log(chalk.cyan("  Solana Balances:"));
+      console.log(chalk.white(`    SOL:          ${solBalances.solBalance}`));
+      console.log(chalk.white(`    USDC (SPL):   ${solBalances.usdcBalance}`));
+    } catch {
+      console.log(chalk.yellow("  Could not fetch Solana balances (check RPC URL)"));
+    }
+  } else {
+    console.log(chalk.yellow("  Solana: Not configured (set SOLANA_PRIVATE_KEY in .env)"));
   }
 
   // 2. ERC-8004 Identity
@@ -139,7 +162,7 @@ async function main() {
 
   // 10. Agent API Server
   spinner.text = "Starting agent API server...";
-  const server = new AgentServer(wallet, erc8004, x402, chatHandler);
+  const server = new AgentServer(wallet, erc8004, x402, chatHandler, solanaWallet);
   const port = parseInt(process.env.AGENT_API_PORT || "8402");
   await server.start(port);
 
@@ -149,6 +172,7 @@ async function main() {
   console.log(chalk.gray(`  Dashboard: http://localhost:${process.env.PORT || 3000}`));
   console.log(chalk.gray(`  Dashboard Chat: ws://localhost:${port}/chat`));
   console.log(chalk.gray(`  Telegram: ${telegram.isConfigured ? "Active" : "Not configured"}`));
+  console.log(chalk.gray(`  Solana: ${solanaWallet ? "Active" : "Not configured"}`));
   console.log(chalk.gray(`  x402 Endpoint: http://localhost:${port}/x402\n`));
 
   console.log(

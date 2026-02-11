@@ -3,7 +3,7 @@
 interface AgentIdentityProps {
   status: {
     agent: string;
-    wallet: { address: string };
+    wallet: { address: string; solanaAddress?: string };
     uptime: number;
     timestamp: string;
   } | null;
@@ -67,6 +67,14 @@ export function AgentIdentity({ status }: AgentIdentityProps) {
               $MEGACLAWD
             </a>
           </div>
+          {status.wallet.solanaAddress && (
+            <div>
+              <span className="text-gray-500">Solana: </span>
+              <code className="text-purple-400">
+                {status.wallet.solanaAddress.slice(0, 4)}...{status.wallet.solanaAddress.slice(-4)}
+              </code>
+            </div>
+          )}
         </div>
       )}
     </div>

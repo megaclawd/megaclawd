@@ -21,6 +21,9 @@ interface AgentStatus {
     ethMainnet?: string;
     ethBase?: string;
     usdcBase?: string;
+    solanaAddress?: string;
+    solBalance?: string;
+    usdcSolana?: string;
   };
   uptime: number;
   timestamp: string;

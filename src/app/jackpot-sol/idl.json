@@ -1,0 +1,119 @@
+{
+  "version": "0.1.0",
+  "name": "mega_clawd_jackpot",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        { "name": "authority", "isMut": true, "isSigner": true },
+        { "name": "jackpotState", "isMut": true, "isSigner": false },
+        { "name": "usdcMint", "isMut": false, "isSigner": false },
+        { "name": "vault", "isMut": true, "isSigner": false },
+        { "name": "playerList", "isMut": true, "isSigner": false },
+        { "name": "buybackWallet", "isMut": false, "isSigner": false },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false },
+        { "name": "associatedTokenProgram", "isMut": false, "isSigner": false },
+        { "name": "systemProgram", "isMut": false, "isSigner": false },
+        { "name": "rent", "isMut": false, "isSigner": false }
+      ],
+      "args": [
+        { "name": "roundDuration", "type": "i64" }
+      ]
+    },
+    {
+      "name": "enter",
+      "accounts": [
+        { "name": "player", "isMut": true, "isSigner": true },
+        { "name": "jackpotState", "isMut": true, "isSigner": false },
+        { "name": "playerUsdcAccount", "isMut": true, "isSigner": false },
+        { "name": "vault", "isMut": true, "isSigner": false },
+        { "name": "playerList", "isMut": true, "isSigner": false },
+        { "name": "playerEntry", "isMut": true, "isSigner": false },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false },
+        { "name": "systemProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": []
+    },
+    {
+      "name": "finalizeRound",
+      "accounts": [
+        { "name": "caller", "isMut": true, "isSigner": true },
+        { "name": "jackpotState", "isMut": true, "isSigner": false },
+        { "name": "vault", "isMut": true, "isSigner": false },
+        { "name": "playerList", "isMut": true, "isSigner": false },
+        { "name": "winnerUsdcAccount", "isMut": true, "isSigner": false },
+        { "name": "buybackUsdcAccount", "isMut": true, "isSigner": false },
+        { "name": "roundResult", "isMut": true, "isSigner": false },
+        { "name": "nextPlayerList", "isMut": true, "isSigner": false },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false },
+        { "name": "systemProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "JackpotState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "authority", "type": "publicKey" },
+          { "name": "usdcMint", "type": "publicKey" },
+          { "name": "vault", "type": "publicKey" },
+          { "name": "buybackWallet", "type": "publicKey" },
+          { "name": "currentRound", "type": "u64" },
+          { "name": "roundStartTime", "type": "i64" },
+          { "name": "roundDuration", "type": "i64" },
+          { "name": "potBalance", "type": "u64" },
+          { "name": "playerCount", "type": "u32" },
+          { "name": "totalBuybacks", "type": "u64" },
+          { "name": "totalPrizes", "type": "u64" },
+          { "name": "bump", "type": "u8" },
+          { "name": "vaultBump", "type": "u8" }
+        ]
+      }
+    },
+    {
+      "name": "PlayerEntry",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "player", "type": "publicKey" },
+          { "name": "round", "type": "u64" },
+          { "name": "timestamp", "type": "i64" },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    },
+    {
+      "name": "PlayerList",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "round", "type": "u64" },
+          { "name": "players", "type": { "vec": "publicKey" } }
+        ]
+      }
+    },
+    {
+      "name": "RoundResult",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "round", "type": "u64" },
+          { "name": "winner", "type": "publicKey" },
+          { "name": "winnerPrize", "type": "u64" },
+          { "name": "buybackAmount", "type": "u64" },
+          { "name": "playerCount", "type": "u32" },
+          { "name": "endTime", "type": "i64" }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    { "code": 6000, "name": "RoundNotOver", "msg": "Round is not over yet" },
+    { "code": 6001, "name": "AlreadyEntered", "msg": "Player has already entered this round" },
+    { "code": 6002, "name": "NoPlayers", "msg": "No players in the current round" },
+    { "code": 6003, "name": "PlayerListFull", "msg": "Player list is full" }
+  ]
+}

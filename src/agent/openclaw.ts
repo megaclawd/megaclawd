@@ -62,6 +62,7 @@ export class OpenClawGateway {
               capabilities: [
                 "blockchain",
                 "smart-contracts",
+                "solana",
                 "x402-payments",
                 "erc8004",
                 "code-review",
@@ -197,6 +198,18 @@ export class OpenClawGateway {
           "lookup_agent",
           "update_metadata",
           "get_reputation",
+        ],
+      },
+      {
+        name: "mega-clawd-solana",
+        description: "Solana operations: send SOL/SPL, swap via Jupiter, deploy Anchor programs",
+        version: "1.0.0",
+        commands: [
+          "send_sol",
+          "send_spl_token",
+          "swap_jupiter",
+          "deploy_program",
+          "get_sol_balance",
         ],
       },
       {

@@ -19,6 +19,14 @@ const APPS: AppEntry[] = [
     status: "live",
     icon: "🎰",
   },
+  {
+    name: "Jackpot SOL",
+    description:
+      "Solana Jackpot: 1 USDC-SPL entry, 24h rounds. Anchor program on Solana.",
+    href: "/jackpot-sol",
+    status: "deploying",
+    icon: "🎲",
+  },
 ];
 
 const statusColors: Record<AppEntry["status"], string> = {
