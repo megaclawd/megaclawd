@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --clawd-primary: #ff6b2b;
+  --clawd-secondary: #1a1a2e;
+  --clawd-accent: #e94560;
+  --clawd-dark: #0f0f23;
+  --clawd-gold: #ffd700;
+}
+
+body {
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+}
+
+@layer components {
+  .card {
+    @apply bg-clawd-secondary/80 backdrop-blur-sm border border-clawd-primary/20 rounded-xl p-6;
+  }
+
+  .card-glow {
+    @apply card hover:border-clawd-primary/50 transition-all duration-300;
+    box-shadow: 0 0 0 0 rgba(255, 107, 43, 0);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .card-glow:hover {
+    box-shadow: 0 0 20px rgba(255, 107, 43, 0.15);
+  }
+
+  .btn-primary {
+    @apply bg-clawd-primary hover:bg-clawd-primary/80 text-white font-bold py-2 px-6 rounded-lg transition-all duration-200;
+  }
+
+  .btn-secondary {
+    @apply border border-clawd-primary/50 hover:bg-clawd-primary/10 text-clawd-primary font-bold py-2 px-6 rounded-lg transition-all duration-200;
+  }
+
+  .status-dot {
+    @apply w-2 h-2 rounded-full inline-block mr-2;
+  }
+
+  .status-online {
+    @apply status-dot bg-green-400 animate-pulse;
+  }
+
+  .status-offline {
+    @apply status-dot bg-red-400;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-clawd-primary to-clawd-accent;
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f0f23;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ff6b2b40;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ff6b2b80;
+}
