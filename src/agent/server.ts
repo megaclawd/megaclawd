@@ -70,11 +70,13 @@ export class AgentServer {
     // Agent status (balances, health)
     this.app.get("/status", async (_req, res) => {
       try {
-        const balances = await this.wallet.getBalances();
+        const timeout = <T>(p: Promise<T>, ms: number) =>
+          Promise.race([p, new Promise<never>((_, r) => setTimeout(() => r(new Error("timeout")), ms))]);
+        const balances = await timeout(this.wallet.getBalances(), 8000);
         let solanaData: Record<string, string> = {};
         if (this.solanaWallet) {
           try {
-            const solBal = await this.solanaWallet.getBalances();
+            const solBal = await timeout(this.solanaWallet.getBalances(), 8000);
             solanaData = {
               solanaAddress: solBal.address,
               solBalance: solBal.solBalance,
@@ -90,10 +92,14 @@ export class AgentServer {
           timestamp: new Date().toISOString(),
         });
       } catch (error) {
+        const walletData: Record<string, string> = { address: this.wallet.address };
+        if (this.solanaWallet) {
+          walletData.solanaAddress = this.solanaWallet.address;
+        }
         res.json({
           status: "online",
           agent: AGENT_CONFIG.name,
-          wallet: { address: this.wallet.address },
+          wallet: walletData,
           uptime: process.uptime(),
           timestamp: new Date().toISOString(),
           note: "Balance fetch unavailable",
