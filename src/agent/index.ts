@@ -6,6 +6,7 @@ import { X402Client } from "./x402.js";
 import { OpenClawGateway } from "./openclaw.js";
 import { X402GuardClient } from "./x402guard.js";
 import { ClankerLauncher } from "./clanker.js";
+import { TwitterClient } from "./twitter.js";
 import { AgentServer } from "./server.js";
 import { AGENT_CONFIG } from "./config.js";
 
@@ -93,7 +94,16 @@ async function main() {
   const clanker = new ClankerLauncher();
   console.log(chalk.green("  Clanker Token Launcher: Ready ($MEGACLAWD via Clanker v4)"));
 
-  // 6. OpenClaw Gateway
+  // 6. Twitter/X
+  spinner.text = "Initializing Twitter client...";
+  const twitter = new TwitterClient();
+  if (twitter.isConfigured) {
+    console.log(chalk.green("  Twitter/X: Connected (@megaclawd)"));
+  } else {
+    console.log(chalk.yellow("  Twitter/X: Not configured (set TWITTER_API_KEY in .env)"));
+  }
+
+  // 7. OpenClaw Gateway
   spinner.text = "Connecting to OpenClaw gateway...";
   const openclaw = new OpenClawGateway();
   const openclawConnected = await openclaw.connect().catch(() => false);
